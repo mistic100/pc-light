@@ -50,7 +50,7 @@ class Animations {
         break;
 
       case STATIC:
-        // noop
+        fill_solid(leds, NUM_LEDS, CHSV(staticColor, 255, 255));
         break;
     }
   }
@@ -81,8 +81,6 @@ class Animations {
         break;
 
       case STATIC:
-        currentPalette = CRGBPalette16(CHSV(staticColor, 255, 255), CHSV(staticColor, 255, 255));
-        showPalette();
         break;
     }
   }
