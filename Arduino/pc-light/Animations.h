@@ -11,9 +11,10 @@ class Animations {
   public:
 
   // loop period in ms
-  int period = 20;
+  int period = 10;
   // palette offset
   int startIndex = 0;
+  int fadeIndex = 0;
   // current animation
   enum Modes currentMode;
   // current blending mode
@@ -31,11 +32,6 @@ class Animations {
    * Run the current animation
    */
   void run(boolean isStop) {
-    if (isStop) {
-      fill_solid(leds, NUM_LEDS, CRGB::Black);
-      return;
-    }
-    
     switch (currentMode) {
       case RAINBOW:
         runRainbow();
@@ -52,6 +48,19 @@ class Animations {
       case STATIC:
         fill_solid(leds, NUM_LEDS, CHSV(staticColor, 255, 255));
         break;
+    }
+
+    EVERY_N_MILLIS(20) {
+      if (!isStop && fadeIndex < NUM_LEDS) {
+        fadeIndex++;
+      }
+      if (isStop && fadeIndex > 0) {
+        fadeIndex--;
+      }
+    }
+
+    for (int i = fadeIndex; i < NUM_LEDS; i++) {
+      leds[NUM_LEDS - i - 1] = CRGB::Black;
     }
   }
 
